@@ -15,8 +15,8 @@ export function Nav({ onBook }: { onBook: () => void }) {
   return (
     <header className="surface-paper sticky top-0 z-40 border-b border-border">
       <div className="wrap flex h-16 items-center justify-between lg:pr-0">
-        <a href="#top" className="flex h-11 items-center font-display text-2xl tracking-tight">
-          {config.businessName}
+        <a href="#top" className="flex h-11 min-w-0 items-center font-display text-xl tracking-tight md:text-2xl">
+          <span className="truncate">{config.businessName}</span>
         </a>
 
         <nav aria-label="Sections" className="hidden h-full items-center lg:flex">

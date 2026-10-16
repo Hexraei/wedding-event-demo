@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { AnimatePresence, m } from 'motion/react'
 import { config } from '@/config'
 import { srcSet, waLink } from '@/lib/site'
@@ -54,7 +54,9 @@ export function Hero({ onBook }: { onBook: () => void }) {
       </div>
 
       <div className="wrap grid-12 pb-8 md:pb-12">
-        <h1 className="col-span-full text-display text-paper">{config.businessName}</h1>
+        <h1 className="col-span-full text-display text-paper" style={{ '--chars': config.businessName.length } as CSSProperties}>
+          {config.businessName}
+        </h1>
         <p className="col-span-full mt-6 max-w-[34ch] text-lg leading-snug text-paper md:col-span-6 md:mt-10 md:text-xl">
           {config.tagline}
         </p>

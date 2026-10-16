@@ -18,6 +18,7 @@ function Masonry({ images, onOpen }: { images: GalleryImage[]; onOpen: (i: numbe
       {images.map((img, i) => (
         <m.figure
           key={img.url}
+          data-reveal
           className="mb-3 break-inside-avoid md:mb-6"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
