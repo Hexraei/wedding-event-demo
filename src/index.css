@@ -1,0 +1,189 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/fraunces.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/fraunces-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/instrument-sans.woff2") format("woff2");
+}
+
+@custom-variant dark (&:is(.dark *));
+
+/* Palette roles (--deep, --bright, --paper, --ink, --on-bright) are injected
+   into <head> by vite.config.ts from src/lib/palettes.ts. */
+@theme inline {
+  --font-sans: "Instrument Sans", ui-sans-serif, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-heading: var(--font-display);
+
+  --color-deep: var(--deep);
+  --color-bright: var(--bright);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-on-bright: var(--on-bright);
+  --color-whatsapp: #25d366;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 3px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
+}
+
+/* A surface sets the background and re-points the shadcn tokens so components
+   inside it (inputs, accordion rules, tabs) read correctly on that colour. */
+@utility surface-paper {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --destructive: #a32018;
+  @apply surface-tokens;
+}
+@utility surface-deep {
+  --background: var(--deep);
+  --foreground: var(--paper);
+  --destructive: var(--paper);
+  @apply surface-tokens;
+}
+@utility surface-ink {
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --destructive: var(--paper);
+  @apply surface-tokens;
+}
+@utility surface-bright {
+  --background: var(--bright);
+  --foreground: var(--on-bright);
+  @apply surface-tokens;
+}
+@utility surface-tokens {
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
+  --secondary: color-mix(in oklab, var(--foreground) 8%, var(--background));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in oklab, var(--foreground) 8%, var(--background));
+  --muted-foreground: color-mix(in oklab, var(--foreground) 74%, var(--background));
+  --accent: color-mix(in oklab, var(--foreground) 8%, var(--background));
+  --accent-foreground: var(--foreground);
+  --border: color-mix(in oklab, var(--foreground) 24%, var(--background));
+  --input: color-mix(in oklab, var(--foreground) 40%, var(--background));
+  --ring: var(--foreground);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+:root {
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --radius: 2px;
+  @apply surface-paper;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans antialiased;
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 360;
+    text-wrap: balance;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--bright);
+    color: var(--on-bright);
+  }
+}
+
+/* Layout: one container, one 12-column grid, one section rhythm (8px base). */
+@utility wrap {
+  @apply mx-auto w-full max-w-[1440px] px-4 md:px-8 lg:px-12;
+}
+@utility grid-12 {
+  @apply grid grid-cols-4 gap-x-4 md:grid-cols-12 md:gap-x-6;
+}
+@utility section-y {
+  @apply py-20 md:py-32;
+}
+
+/* Type scale */
+@utility text-display {
+  font-size: clamp(4.5rem, 21vw, 15.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+}
+@utility text-h2 {
+  font-size: clamp(2.75rem, 6.4vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+@utility text-h3 {
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
