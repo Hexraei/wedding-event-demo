@@ -14,7 +14,7 @@ npm run build    # static site in dist/
 
 `dist/` is a plain static site.
 
-- **Vercel**: import the repo. It detects Vite (build `npm run build`, output `dist`).
+- **Vercel**: import the repo at vercel.com/new and deploy. `vercel.json` already sets the build (`npm run build`), output (`dist`) and long-term caching for hashed assets and fonts. Each push to `main` redeploys.
 - **Netlify**: build command `npm run build`, publish directory `dist`. Or drag the `dist` folder onto app.netlify.com/drop.
 
 ## What to edit in `src/config.ts`
