@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { useInView, useReducedMotion } from 'motion/react'
+import { useInView } from 'motion/react'
+import { useReducedMotion } from '@/lib/hooks'
 import { config } from '@/config'
 
 const DURATION = 1600

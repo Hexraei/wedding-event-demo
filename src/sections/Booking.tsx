@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { config } from '@/config'
 import { waLink } from '@/lib/site'
+import { useHydrated } from '@/lib/hooks'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 
 // The form (react-hook-form, calendar, select) loads after first paint.
@@ -9,6 +10,8 @@ const BookingForm = lazy(() => import('./BookingForm'))
 const placeholder = <div className="min-h-[38rem] sm:min-h-[30rem]" aria-busy="true" />
 
 export function Booking() {
+  // Lazy components can't resolve during prerender; mount the form after hydration.
+  const hydrated = useHydrated()
   return (
     <section id="book" className="surface-deep section-y">
       <div className="wrap grid-12 gap-y-12">
@@ -35,9 +38,13 @@ export function Booking() {
           </dl>
         </div>
         <div className="col-span-full md:col-span-7 lg:col-span-6 lg:col-start-7">
-          <Suspense fallback={placeholder}>
-            <BookingForm />
-          </Suspense>
+          {hydrated ? (
+            <Suspense fallback={placeholder}>
+              <BookingForm />
+            </Suspense>
+          ) : (
+            placeholder
+          )}
         </div>
       </div>
     </section>
@@ -47,8 +54,8 @@ export function Booking() {
 export function BookingDialog({ open, note, onOpenChange }: { open: boolean; note: string; onOpenChange: (o: boolean) => void }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="surface-paper max-h-[calc(100svh-2rem)] gap-0 overflow-y-auto rounded-none p-6 ring-0 sm:max-w-2xl md:p-10">
-        <DialogTitle className="pr-10 text-h3 font-display font-normal">{config.copy.booking}</DialogTitle>
+      <DialogContent className="surface-paper bg-background text-foreground max-h-[calc(100svh-2rem)] gap-0 overflow-y-auto rounded-none p-6 ring-0 sm:max-w-2xl md:p-10">
+        <DialogTitle className="pr-10 font-display text-[2rem] leading-none font-normal tracking-[-0.02em] md:text-[2.5rem]">{config.copy.booking}</DialogTitle>
         <DialogDescription className="mt-2 mb-8 text-base text-muted-foreground">{config.copy.bookingNote}</DialogDescription>
         <Suspense fallback={placeholder}>
           {/* key resets the form when opened from a different package */}

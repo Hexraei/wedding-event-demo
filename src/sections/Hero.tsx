@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, m, useReducedMotion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { config } from '@/config'
 import { srcSet, waLink } from '@/lib/site'
-import { useMediaQuery } from '@/lib/hooks'
+import { useMediaQuery, useReducedMotion } from '@/lib/hooks'
 import { Img } from '@/components/Img'
 import { Button } from '@/components/ui/button'
 
@@ -59,8 +59,11 @@ export function Hero({ onBook }: { onBook: () => void }) {
           {config.tagline}
         </p>
         <div className="col-span-full mt-8 flex flex-col gap-3 sm:flex-row md:col-span-6 md:mt-10 md:items-end md:justify-end">
-          <Button size="lg" onClick={onBook} className="bg-paper text-ink hover:bg-bright hover:text-on-bright">
-            Check availability
+          {/* A real link, so it scrolls to the form before the page has hydrated. */}
+          <Button size="lg" asChild className="bg-paper text-ink hover:bg-bright hover:text-on-bright">
+            <a href="#book" onClick={(e) => { e.preventDefault(); onBook() }}>
+              Check availability
+            </a>
           </Button>
           <Button size="lg" variant="outline" asChild className="border-paper/70 bg-transparent text-paper hover:bg-paper hover:text-ink">
             <a href={waLink(config.whatsappNumber, config.whatsappMessage)} target="_blank" rel="noopener">

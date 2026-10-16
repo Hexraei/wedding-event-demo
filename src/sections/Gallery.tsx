@@ -85,7 +85,7 @@ export function Gallery() {
             if (e.key === 'ArrowRight') step(1)
             if (e.key === 'ArrowLeft') step(-1)
           }}
-          className="surface-ink top-0 left-0 grid h-svh w-screen max-w-none translate-x-0 translate-y-0 grid-rows-[auto_1fr_auto] gap-0 rounded-none p-0 ring-0 sm:max-w-none"
+          className="surface-ink bg-background text-foreground top-0 left-0 grid h-svh w-screen max-w-none translate-x-0 translate-y-0 grid-rows-[auto_1fr_auto] gap-0 rounded-none p-0 ring-0 sm:max-w-none"
         >
           {current && open !== null && (
             <>

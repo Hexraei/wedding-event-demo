@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { CalendarDays, MessageCircle } from 'lucide-react'
 import { config } from '@/config'
@@ -38,6 +38,8 @@ function openWhatsApp(link: string) {
 }
 
 export default function BookingForm({ defaultNote = '', className }: { defaultNote?: string; className?: string }) {
+  const uid = useId()
+  const id = (name: string) => `${uid}-${name}`
   const [sentLink, setSentLink] = useState<string | null>(null)
   const [dateOpen, setDateOpen] = useState(false)
   const { control, handleSubmit } = useForm<Values>({
@@ -69,8 +71,8 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         rules={{ validate: (v) => v.trim().length >= 2 || 'Enter your name.' }}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="book-name">Your name</FieldLabel>
-            <Input {...field} id="book-name" autoComplete="name" aria-invalid={fieldState.invalid} />
+            <FieldLabel htmlFor={id('name')}>Your name</FieldLabel>
+            <Input {...field} id={id('name')} autoComplete="name" aria-invalid={fieldState.invalid} />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
@@ -81,8 +83,8 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         rules={{ validate: (v) => isIndianMobile(v) || 'Enter a 10-digit mobile number.' }}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="book-phone">Phone</FieldLabel>
-            <Input {...field} id="book-phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="98765 43210" aria-invalid={fieldState.invalid} />
+            <FieldLabel htmlFor={id('phone')}>Phone</FieldLabel>
+            <Input {...field} id={id('phone')} type="tel" inputMode="tel" autoComplete="tel" placeholder="10-digit mobile" aria-invalid={fieldState.invalid} />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
@@ -93,9 +95,9 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         rules={{ required: 'Choose the event.' }}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="book-event">Event</FieldLabel>
+            <FieldLabel htmlFor={id('event')}>Event</FieldLabel>
             <Select name={field.name} value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger id="book-event" className="w-full" aria-invalid={fieldState.invalid} onBlur={field.onBlur}>
+              <SelectTrigger id={id('event')} className="w-full" aria-invalid={fieldState.invalid} onBlur={field.onBlur}>
                 <SelectValue placeholder="Choose one" />
               </SelectTrigger>
               <SelectContent position="popper">
@@ -116,11 +118,11 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         rules={{ required: 'Pick the date.' }}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="book-date">Date</FieldLabel>
+            <FieldLabel htmlFor={id('date')}>Date</FieldLabel>
             <Popover open={dateOpen} onOpenChange={setDateOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  id="book-date"
+                  id={id('date')}
                   type="button"
                   variant="outline"
                   aria-invalid={fieldState.invalid}
@@ -156,8 +158,8 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         control={control}
         render={({ field }) => (
           <Field>
-            <FieldLabel htmlFor="book-venue">City or venue</FieldLabel>
-            <Input {...field} id="book-venue" placeholder={`${config.area}, ${config.city}`} />
+            <FieldLabel htmlFor={id('venue')}>City or venue</FieldLabel>
+            <Input {...field} id={id('venue')} placeholder={`${config.area}, ${config.city}`} />
           </Field>
         )}
       />
@@ -167,8 +169,8 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         rules={{ validate: (v) => v === '' || /^\d{1,5}$/.test(v.trim()) || 'Enter a number, or leave it blank.' }}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="book-guests">Guests</FieldLabel>
-            <Input {...field} id="book-guests" inputMode="numeric" placeholder="Approximate" aria-invalid={fieldState.invalid} />
+            <FieldLabel htmlFor={id('guests')}>Guests</FieldLabel>
+            <Input {...field} id={id('guests')} inputMode="numeric" placeholder="Approximate" aria-invalid={fieldState.invalid} />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
@@ -178,8 +180,8 @@ export default function BookingForm({ defaultNote = '', className }: { defaultNo
         control={control}
         render={({ field }) => (
           <Field className="sm:col-span-2">
-            <FieldLabel htmlFor="book-note">Anything else</FieldLabel>
-            <Textarea {...field} id="book-note" rows={3} placeholder="Muhurtham time, other events, questions" />
+            <FieldLabel htmlFor={id('note')}>Anything else</FieldLabel>
+            <Textarea {...field} id={id('note')} rows={3} placeholder="Muhurtham time, other events, questions" />
           </Field>
         )}
       />

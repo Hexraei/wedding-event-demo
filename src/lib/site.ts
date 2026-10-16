@@ -28,7 +28,7 @@ const labels: Record<keyof BookingFields, string> = {
 /** Greeting followed by one labelled line per form field, blanks included. */
 export function bookingMessage(greeting: string, fields: BookingFields): string {
   const lines = (Object.keys(labels) as (keyof BookingFields)[]).map(
-    (key) => `${labels[key]}: ${fields[key].trim() || 'Not decided yet'}`,
+    (key) => `${labels[key]}: ${fields[key].trim() || (key === 'note' ? 'None' : 'Not decided yet')}`,
   )
   return [greeting, '', ...lines].join('\n')
 }
@@ -43,18 +43,19 @@ export function formatINR(amount: number): string {
   return 'INR ' + new Intl.NumberFormat('en-IN').format(amount)
 }
 
-/** Same Unsplash image at a given width. Non-Unsplash URLs pass through. */
+/** Same Unsplash image at a given width (quality 60). Other URLs pass through. */
 export function sized(url: string, width: number): string {
   try {
     const u = new URL(url)
     if (!u.hostname.endsWith('unsplash.com')) return url
     u.searchParams.set('w', String(width))
+    u.searchParams.set('q', '60')
     return u.toString()
   } catch {
     return url
   }
 }
 
-export function srcSet(url: string, widths = [480, 800, 1200, 1600, 2000]): string {
+export function srcSet(url: string, widths = [320, 480, 640, 800, 1080, 1440, 1920]): string {
   return widths.map((w) => `${sized(url, w)} ${w}w`).join(', ')
 }

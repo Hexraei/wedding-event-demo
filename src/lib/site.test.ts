@@ -27,7 +27,7 @@ test('blank optional fields are still listed', () => {
   const text = bookingMessage('Hi', { name: 'A', phone: '9', eventType: 'Wedding', eventDate: 'x', venue: ' ', guests: '', note: '' })
   assert.match(text, /City \/ venue: Not decided yet/)
   assert.match(text, /Guests: Not decided yet/)
-  assert.match(text, /Note: Not decided yet/)
+  assert.match(text, /Note: None/)
 })
 
 test('indian mobile validation', () => {
@@ -40,6 +40,6 @@ test('INR uses Indian grouping', () => {
 })
 
 test('sized rewrites only unsplash widths', () => {
-  assert.equal(sized('https://images.unsplash.com/photo-1?w=1600&q=80&auto=format', 800), 'https://images.unsplash.com/photo-1?w=800&q=80&auto=format')
+  assert.equal(sized('https://images.unsplash.com/photo-1?w=1600&q=80&auto=format', 800), 'https://images.unsplash.com/photo-1?w=800&q=60&auto=format')
   assert.equal(sized('/local.jpg', 800), '/local.jpg')
 })

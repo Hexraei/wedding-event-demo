@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { sized, srcSet } from '@/lib/site'
 
@@ -18,6 +18,12 @@ type Props = {
 /** Fixed-ratio photo that never shows a blank or broken tile. */
 export function Img({ src, alt, ratio, color, sizes = '100vw', priority, className, imgClassName }: Props) {
   const [state, setState] = useState<'loading' | 'loaded' | 'failed'>('loading')
+  const ref = useRef<HTMLImageElement>(null)
+  // The prerendered <img> may finish (or fail) before React attaches onLoad.
+  useEffect(() => {
+    const img = ref.current
+    if (img?.complete) setState(img.naturalWidth > 0 ? 'loaded' : 'failed')
+  }, [])
   return (
     <div
       className={cn('relative overflow-hidden', state === 'failed' ? 'bg-deep' : '', className)}
@@ -25,6 +31,7 @@ export function Img({ src, alt, ratio, color, sizes = '100vw', priority, classNa
     >
       {state !== 'failed' && (
         <img
+          ref={ref}
           src={sized(src, 1200)}
           srcSet={srcSet(src)}
           sizes={sizes}

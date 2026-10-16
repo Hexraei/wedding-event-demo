@@ -42,9 +42,11 @@ export function Packages({ onBook }: { onBook: (note: string) => void }) {
                 size="lg"
                 variant={p.featured ? 'default' : 'outline'}
                 className={cn('mt-auto w-full', !p.featured && 'border-foreground bg-transparent hover:bg-foreground hover:text-background')}
-                onClick={() => onBook(`Interested in the ${p.name} package.`)}
+                asChild
               >
-                Ask about {p.name}
+                <a href="#book" onClick={(e) => { e.preventDefault(); onBook(`Interested in the ${p.name} package.`) }}>
+                  Ask about {p.name}
+                </a>
               </Button>
             </li>
           ))}

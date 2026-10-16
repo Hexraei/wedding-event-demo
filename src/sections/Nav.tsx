@@ -28,13 +28,13 @@ export function Nav({ onBook }: { onBook: () => void }) {
           <a href={`tel:${config.phone.replace(/\s/g, '')}`} className="flex h-full items-center border-l border-border px-6 text-[0.9375rem] tabular-nums">
             {config.phone}
           </a>
-          <button
-            type="button"
-            onClick={onBook}
+          <a
+            href="#book"
+            onClick={(e) => { e.preventDefault(); onBook() }}
             className="surface-deep flex h-full items-center px-10 text-[0.9375rem] font-medium transition-colors hover:bg-ink"
           >
             Book a date
-          </button>
+          </a>
         </nav>
 
         <Sheet>
@@ -43,7 +43,7 @@ export function Nav({ onBook }: { onBook: () => void }) {
               <Menu className="size-6" strokeWidth={1.5} />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="surface-paper w-full gap-0 border-l p-0 sm:max-w-sm">
+          <SheetContent side="right" className="surface-paper bg-background text-foreground w-full gap-0 border-l p-0 sm:max-w-sm">
             <SheetTitle className="flex h-16 items-center border-b border-border px-4 font-display text-2xl font-normal">
               {config.businessName}
             </SheetTitle>
